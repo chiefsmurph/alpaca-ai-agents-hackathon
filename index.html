@@ -458,7 +458,7 @@
     </div>
 
     <div class="kpis">
-      <div class="kpi"><div class="n">34,292</div><div class="l">decisions journaled &amp; queryable</div></div>
+      <div class="kpi"><div class="n">37,881</div><div class="l">decisions journaled &amp; queryable</div></div>
       <div class="kpi"><div class="n">~10</div><div class="l">kill-switchable risk gates before the AI</div></div>
       <div class="kpi"><div class="n">[0, 2×]</div><div class="l">hard clamp on every AI resize</div></div>
       <div class="kpi"><div class="n">143 / 143</div><div class="l">tests passing (incl. the adversarial fill test)</div></div>
@@ -555,7 +555,7 @@
         <h3>The AI proves its worth line by line</h3>
         <p>Every candidate is journaled with what the deterministic gate decided and exactly how the AI moved it —
            veto to size <span class="k">0</span>, or resize within <span class="k">[0, 2×]</span>.
-           <span class="k">34,292</span> decisions logged; every AI intervention auditable — not a fuzzy account race.</p>
+           <span class="k">37,881</span> decisions logged; every AI intervention auditable — not a fuzzy account race.</p>
       </div>
       <div class="feature">
         <div class="num">2</div>
@@ -731,7 +731,7 @@
       <div class="ev-head">
         <span class="dot"></span>
         <h3>The decision journal — the AI in action</h3>
-        <span class="file">data/decisions.jsonl · 34,292 records</span>
+        <span class="file">data/decisions.jsonl · 37,881 records</span>
       </div>
       <div class="ev-body">
         <p>A BUY record carries the AI's fingerprint: <span class="mono" style="color:var(--accent)">sizeFactor</span>
@@ -751,13 +751,13 @@
   ],
   <span class="c-key">"sizeFactor"</span>: <span class="c-num">1.8</span>   <span class="c-com">// ← the AI's bounded resize, clamped to [0, 2×]</span>
 }</pre>
-        <p>The funnel is the point: <b style="color:var(--ink)">16,725 SKIP · 13,221 CONSIDER · 4,221 HOLD · 86 BUY · 39 CLOSE</b>.
-           Tens of thousands of candidates, 86 buys — the agent's default answer is <em>no</em>.</p>
+        <p>The funnel is the point: <b style="color:var(--ink)">18,319 SKIP · 14,819 CONSIDER · 4,614 HOLD · 90 BUY · 39 CLOSE</b>.
+           Tens of thousands of candidates, 90 buys — the agent's default answer is <em>no</em>.</p>
         <p style="margin-bottom:0"><b style="color:var(--ink2)">Not just auditable — audited.</b>
            One pass over the journal, across every sized entry:
-           <b style="color:var(--accent)">18 upsized</b> · <b style="color:var(--accent)">34 downsized</b> ·
+           <b style="color:var(--accent)">20 upsized</b> · <b style="color:var(--accent)">36 downsized</b> ·
            <b style="color:var(--ink)">34 held at gate size</b> · median <span class="mono" style="color:var(--accent)">sizeFactor</span> <b style="color:var(--ink)">1.0</b>.
-           ~60% of sized entries were actively re-sized by the AI — a bounded overlay that <em>tunes</em>, not one that takes over.
+           ~62% of sized entries were actively re-sized by the AI — a bounded overlay that <em>tunes</em>, not one that takes over.
            <span style="color:var(--ink3)">(Vetoes size to zero and never reach the buy log — the caution shows up upstream as a skip. Counts only.)</span></p>
       </div>
     </div>
@@ -945,7 +945,7 @@
       executing MCP-native both ways, with every decision a queryable JSON line.
     </p>
     <div class="chips">
-      <span class="chip"><b>34,292</b> decisions journaled</span>
+      <span class="chip"><b>37,881</b> decisions journaled</span>
       <span class="chip">AI clamped to <b>[0, 2×]</b></span>
       <span class="chip"><b>MCP</b> client + read-only server</span>
       <span class="chip"><b>143/143</b> tests green</span>

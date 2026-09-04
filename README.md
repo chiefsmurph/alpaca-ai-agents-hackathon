@@ -86,7 +86,7 @@ delta is confounded. We do not rest the AI-value claim on it.
 
 **Instead, we measure the AI where it actually acts: at the decision.** Every candidate the
 agent evaluates is appended as one structured JSON line to a decision journal —
-**34,292 decisions and counting** — recording:
+**37,881 decisions and counting** — recording:
 
 - what the **deterministic gate** decided (approve at a computed size, or skip with a named
   reason), and
@@ -130,7 +130,7 @@ proves the real logic isn't hidden inside the thing being judged.
 
 ## Five things no other entry has together
 
-1. **The AI proves its worth line by line.** 34,292 journaled decisions; every AI intervention
+1. **The AI proves its worth line by line.** 37,881 journaled decisions; every AI intervention
    (veto → 0, or resize within `[0, 2×]`) auditable trade-by-trade against the gate's original
    call — not a confounded account race.
 2. **A rising ask literally cannot make us overpay.** One absolute-dollar ceiling is anchored to the
@@ -280,7 +280,7 @@ account sizes, or P&L figures):
 - **The rising-ask invariant.** The execution test suite drives an ask *up 50% mid-fill* and
   asserts no recorded price on any path (rungs, walk, spray, sweep) ever crosses the
   arrival-anchored ceiling.
-- **The decision journal.** 34,292 structured records; each buy carries the full chain — gate
+- **The decision journal.** 37,881 structured records; each buy carries the full chain — gate
   percentage, governor, contract / holding-period / quantity, execution mode and plan, and the
   AI's own size factor.
 - **occ-symbol, live.** Dual-published to npm (`0.1.1`) and PyPI (`0.1.1`), zero runtime deps,
