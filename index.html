@@ -271,6 +271,16 @@
   .occ-link.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:650}
   .occ-link.primary:hover{background:#ecc76a;color:var(--accent-ink)}
   .occ-ver{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.03em}
+  /* ============ LIVE EQUITY (Copper Jaguar) ============ */
+  #monitoring{display:none}
+  .eq-card{margin-top:18px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 24px}
+  .eq-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+  .eq-head .lbl{font-family:var(--mono);font-size:12px;color:var(--ink2)}
+  .eq-ret{font-weight:700}
+  .eq-toggle button{font-family:var(--mono);font-size:12px;background:transparent;border:1px solid var(--line2);color:var(--ink3);border-radius:6px;padding:4px 10px;cursor:pointer;margin-left:6px}
+  .eq-toggle button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .eq-svg{width:100%;height:auto;display:block;margin-top:12px}
+  .eq-cap{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:12px;letter-spacing:.02em}
 
   /* ============ ALPHA <-> AGENT ============ */
   .quote-panel{
@@ -390,7 +400,7 @@
     .grid5{grid-template-columns:1fr 1fr !important}
     /* hide hover-only affordances irrelevant to print */
     .brandtag{display:inline}
-    .no-print,.site-nav,.skip-link,.hero-actions,#demo{display:none !important}
+    .no-print,.site-nav,.skip-link,.hero-actions,#demo,#monitoring{display:none !important}
   }
   h1,h2,h3,.brandname,.nav-brand{font-family:'Saira',var(--sans)}
   .hero h1{letter-spacing:-.03em}
@@ -703,6 +713,23 @@
   </div>
 </section>
 
+<!-- ============ COPPER JAGUAR MONITORING (live, gated by SHOW flag) ============ -->
+<section id="monitoring">
+  <div class="wrap">
+    <p class="eyebrow">Read-only oversight</p>
+    <h2>Copper Jaguar — the monitoring layer</h2>
+    <p class="lede">A separate read-only dashboard watches the fleet in real time — it observes, it never trades. Below is the flagship cell's <b>live equity</b>, streamed from it, measured from the account's fresh funding.</p>
+    <div class="eq-card">
+      <div class="eq-head">
+        <div class="lbl">COMPETE · live equity since fresh funding · <span id="eq-ret" class="eq-ret"></span></div>
+        <div class="eq-toggle"><button id="eq-pct" class="on">%</button><button id="eq-usd">$</button></div>
+      </div>
+      <svg id="eq-svg" class="eq-svg" viewBox="0 0 820 300" preserveAspectRatio="none" aria-label="Live equity chart"></svg>
+      <div class="eq-cap" id="eq-cap">live · AI overlay from day one · via Copper Jaguar (read-only)</div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ SLIDE 6 — EVIDENCE ============ -->
 <section id="evidence">
   <div class="wrap">
@@ -956,6 +983,43 @@
 (function(){var m=/[?&]nostats(=([^&#]*))?/i.exec(location.search);if(!m)return;var off=(m[2]||"").toLowerCase()==="off";try{off?localStorage.removeItem("umami.disabled"):localStorage.setItem("umami.disabled","1");}catch(e){}window.addEventListener("DOMContentLoaded",function(){var b=document.createElement("div");b.textContent=(off?"✓ Umami tracking re-enabled":"✓ Umami tracking disabled")+" on this browser";b.style.cssText="position:fixed;top:0;left:0;right:0;z-index:2147483647;background:#15C7E6;color:#012;font:600 14px/1.4 system-ui,-apple-system,sans-serif;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.25)";document.body.appendChild(b);});})();
 </script>
 <script defer src="https://stats.chiefsmurph.com/script.js" data-website-id="006ce8dc-83ee-4a49-9a1e-34d3fbf6d61d"></script>
+<script>
+(function(){
+  var URL="https://chiefsmurph.com/equity-comp.json";
+  var sec=document.getElementById("monitoring"), svg=document.getElementById("eq-svg");
+  if(!sec) return;
+  var mode="pct", J=null;
+  function render(){
+    if(!J||!J.points||J.points.length<2) return;
+    var pts=J.points, base=J.base||pts[0].e, n=pts.length;
+    var vals=pts.map(function(p){return mode==="pct"?(p.e/base-1)*100:p.e;});
+    var mn=Math.min.apply(null,vals), mx=Math.max.apply(null,vals);
+    if(mode==="pct"){mn=Math.min(mn,0);mx=Math.max(mx,0);}
+    var pad=(mx-mn)*0.12||1; mn-=pad; mx+=pad;
+    var W=820,H=300;
+    var xs=function(i){return (i/(n-1))*W;}, ys=function(v){return H-((v-mn)/(mx-mn))*H;};
+    var pp=vals.map(function(v,i){return xs(i).toFixed(1)+","+ys(v).toFixed(1);}).join(" ");
+    var up=(J.returnPct||0)>=0, col=up?"#e0b24d":"#f0616b", g="";
+    if(mode==="pct"){var zy=ys(0).toFixed(1); g+="<line x1='0' y1='"+zy+"' x2='"+W+"' y2='"+zy+"' stroke='#39333f' stroke-dasharray='4 4'/>";}
+    g+="<polygon points='0,"+H+" "+pp+" "+W+","+H+"' fill='"+col+"' opacity='0.09'/>";
+    g+="<polyline points='"+pp+"' fill='none' stroke='"+col+"' stroke-width='2.5' stroke-linejoin='round'/>";
+    svg.innerHTML=g;
+    var r=document.getElementById("eq-ret"); if(r){r.textContent=(J.returnPct>=0?"+":"")+J.returnPct+"%"; r.style.color=col;}
+    var ago=Math.max(0,Math.round((Date.now()-Date.parse(J.asOf))/1000));
+    var cap=document.getElementById("eq-cap"); if(cap) cap.textContent="live · updated "+ago+"s ago · AI overlay from day one · via Copper Jaguar (read-only)";
+  }
+  function load(){
+    fetch(URL,{cache:"no-store"}).then(function(r){return r.json();}).then(function(j){
+      if(j&&j.show===true&&j.points&&j.points.length>1){J=j;sec.style.display="block";render();}
+      else{sec.style.display="none";}
+    }).catch(function(){});
+  }
+  var b1=document.getElementById("eq-pct"),b2=document.getElementById("eq-usd");
+  if(b1)b1.onclick=function(){mode="pct";b1.classList.add("on");b2.classList.remove("on");render();};
+  if(b2)b2.onclick=function(){mode="usd";b2.classList.add("on");b1.classList.remove("on");render();};
+  load(); setInterval(load,30000);
+})();
+</script>
 
 </body>
 </html>
