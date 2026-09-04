@@ -4,8 +4,10 @@
 .env.*
 *.key
 *.pem
-data/
+# Ignore any REAL journal, but keep the obviously-synthetic sample committed.
 decisions.jsonl
+data/*.jsonl
+!data/decisions.sample.jsonl
 node_modules/
 dist/
 *.log

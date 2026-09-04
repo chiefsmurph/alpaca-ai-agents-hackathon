@@ -1,0 +1,52 @@
+{
+  "name": "occ-symbol",
+  "version": "0.1.1",
+  "description": "Parse, validate, and build OCC option symbols — SPY260825C00500000 ⇄ { underlying, expiration, right, strike }. Zero runtime deps, TypeScript.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test src/index.test.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "occ",
+    "option-symbol",
+    "options",
+    "options-trading",
+    "osi",
+    "option-parser",
+    "derivatives",
+    "finance",
+    "trading"
+  ],
+  "author": "John Murphy <chiefsmurph@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chiefsmurph/occ-symbol.git"
+  },
+  "homepage": "https://occsymbol.com",
+  "bugs": {
+    "url": "https://github.com/chiefsmurph/occ-symbol/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

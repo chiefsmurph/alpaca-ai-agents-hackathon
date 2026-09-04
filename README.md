@@ -9,6 +9,53 @@
 
 ---
 
+## Open reference vs. closed alpha — and what you can run yourself
+
+The **full agent runs in a private repo** (closed alpha — the upstream research/signal engine and
+its proprietary scores). **THIS repo is the open, auditable reference of its execution & risk
+layer** — the exact patterns that keep a bounded LLM safe on live capital, reimplemented clean-room,
+**plus runnable tests you can execute yourself:**
+
+```bash
+npm install && npm test
+```
+
+Nothing here reproduces alpha: the gates are generic risk checks, the score names are genericized,
+the tuned thresholds are omitted. What *is* here is the load-bearing safety machinery — and it runs.
+
+### What's runnable
+
+| Command | What it does |
+|---------|--------------|
+| `npm test` | 27 tests via `node --test`. The headline one drives a fake venue's ask **up 50% mid-fill** and asserts **no produced price ever crosses the arrival-anchored ceiling**; others prove the AI-overlay clamp (`sizeFactor 5 → 2×`, reject → 0, malformed → fail-open) and the token-budget cap. |
+| `npm run typecheck` | `tsc --noEmit` — the `src/` + `test/` modules type-clean. |
+| `npm run risk-gauntlet:demo` | Runs three candidates through the ~9-gate deterministic gauntlet and prints which gate stopped each. |
+| `npm run token-budget:demo` | Compacts one big synthetic nested position and prints **raw vs compacted char size** (~100× smaller here) — the two-tier scalar projection. |
+| `npm run journal-tally` | Audits a **synthetic** decision journal (`data/decisions.sample.jsonl`) and prints the AI-overlay footprint: upsized / downsized / held-at-gate / vetoed + median sizeFactor. *Not just auditable — audited.* |
+
+### Repo map
+
+```
+package.json / tsconfig.json  — runnable ESM + node --test setup
+src/                          — clean-room runnable reference modules (see src/README.md)
+  risk-gauntlet.ts            — ~9 named, kill-switchable deterministic risk gates
+  ai-overlay-guardrail.ts     — the bounded veto/resize clamp + fail-open passthrough
+  arrival-ceiling.ts          — the arrival-anchored $ ceiling (can't chase a rising ask)
+  token-budget.ts             — two-tier compact-scalar projection under a hard char cap
+test/                         — node --test suites (all green)
+  arrival-ceiling.test.ts     — ask rises 50% mid-fill → no price ever exceeds the ceiling
+  ai-overlay-guardrail.test.ts— clamp / veto / fail-open passthrough
+  token-budget.test.ts        — under the cap, key scalars preserved
+scripts/journal-tally.ts      — the decision-journal audit tally
+data/decisions.sample.jsonl   — SYNTHETIC sample journal (no real tickers, no dollars)
+examples/                     — the original sanitized read-only excerpts (intent, not runnable)
+mcp-server/                   — read-only HTTP MCP connector + SECURITY.md
+packages/occ-symbol/          — vendored public OSS OCC-symbol parser (npm + PyPI)
+architecture.md               — the deep ENG + TRADE architecture write-up
+```
+
+---
+
 ## The one-paragraph pitch
 
 Most trading-agent entries are an LLM wired directly to a broker. **Silver Lynx is the
@@ -247,17 +294,33 @@ account sizes, or P&L figures):
 README.md          — this file
 architecture.md    — the deep architecture write-up (ENG + TRADE lens)
 LICENSE            — MIT
-NOTES.md           — provenance + what was intentionally left out
-examples/          — small, sanitized, illustrative code excerpts:
+package.json       — runnable ESM package (npm install && npm test)
+tsconfig.json      — strict TS config for typecheck
+src/               — clean-room RUNNABLE reference modules (see src/README.md)
+  risk-gauntlet.ts          — ~9 named, kill-switchable deterministic risk gates
+  ai-overlay-guardrail.ts   — the veto/resize clamp + fail-open passthrough
+  arrival-ceiling.ts        — the arrival-anchored price ceiling
+  token-budget.ts           — two-tier compact-scalar projection under a hard cap
+test/              — node --test suites (all green):
+  arrival-ceiling.test.ts       — ask +50% mid-fill → no price crosses the ceiling
+  ai-overlay-guardrail.test.ts  — clamp / veto / fail-open passthrough
+  token-budget.test.ts          — under the char cap, key scalars preserved
+scripts/           — journal-tally.ts (decision-journal audit tally)
+data/              — decisions.sample.jsonl (SYNTHETIC sample journal — no tickers, no $)
+examples/          — the original sanitized illustrative excerpts (intent, not runnable):
   ai-overlay-guardrail.ts   — the veto/resize clamp + fail-open passthrough
   execution-ceiling.ts      — the arrival-anchored price ceiling
   mcp-venue-call.ts         — placing a real order via Alpaca's MCP server
+mcp-server/        — read-only HTTP MCP connector, SECURITY.md, .env.example
+packages/          — occ-symbol/ (vendored public OSS OCC-symbol parser)
 ```
 
 > **This is a curated public showcase.** The production agent lives in a private repository.
-> The excerpts here are sanitized and illustrative — proprietary conviction-score vocabulary is
-> genericized and tuned parameter values are replaced with named placeholders. They show the
-> *shape and intent* of the real code, not a runnable build.
+> The `src/` modules are **fresh clean-room reimplementations** of the open execution/risk layer —
+> runnable and tested — while `examples/` holds the original sanitized excerpts that show the
+> real code's *shape and intent*. Throughout, proprietary conviction-score vocabulary is genericized
+> and tuned parameter values are replaced with named placeholders or generic thresholds. No alpha,
+> no tickers, no account sizes, no P&L.
 
 ---
 

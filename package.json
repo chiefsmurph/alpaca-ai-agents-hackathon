@@ -1,0 +1,23 @@
+{
+  "name": "alpaca-ai-agents-hackathon",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Open, auditable reference of a bounded AI options-execution agent's execution & risk layer — the exact patterns, plus runnable tests. Alpaca AI Trading Agents Hackathon entry.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --import tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "journal-tally": "node --import tsx scripts/journal-tally.ts",
+    "token-budget:demo": "node --import tsx src/token-budget.ts",
+    "risk-gauntlet:demo": "node --import tsx src/risk-gauntlet.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

@@ -1,0 +1,38 @@
+{"ts":"2026-09-02T13:36:08.322Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.49,"dte":12,"qty":3,"sizeFactor":1,"symbol":"<contract>"}
+{"ts":"2026-09-02T13:37:13.572Z","action":"skip","executed":false,"reason":"regime-block skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T13:40:29.050Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.88,"dte":21,"qty":5,"sizeFactor":1,"symbol":"<contract>"}
+{"ts":"2026-09-02T13:45:58.559Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.66,"dte":36,"qty":3,"sizeFactor":1.6,"symbol":"<contract>"}
+{"ts":"2026-09-02T13:48:03.305Z","action":"skip","executed":false,"reason":"dte-window skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T13:57:15.759Z","action":"skip","executed":false,"reason":"regime-block skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T14:05:36.735Z","action":"skip","executed":false,"reason":"spread-width skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T14:10:53.889Z","action":"skip","executed":false,"reason":"per-name-cap skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T14:19:07.355Z","action":"skip","executed":false,"reason":"dte-window skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T14:26:34.446Z","action":"buy","executed":false,"reason":"ai-veto","gatePct":0.8,"dte":33,"qty":3,"sizeFactor":0,"symbol":"<contract>"}
+{"ts":"2026-09-02T14:31:00.882Z","action":"skip","executed":false,"reason":"liquidity skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T14:36:35.083Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.41,"dte":12,"qty":3,"sizeFactor":1,"symbol":"<contract>"}
+{"ts":"2026-09-02T14:44:18.591Z","action":"skip","executed":false,"reason":"liquidity skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T14:46:42.602Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.56,"dte":40,"qty":2,"sizeFactor":0.47,"symbol":"<contract>"}
+{"ts":"2026-09-02T14:51:23.754Z","action":"skip","executed":false,"reason":"conviction-floor skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T14:54:02.963Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.93,"dte":33,"qty":6,"sizeFactor":0.94,"symbol":"<contract>"}
+{"ts":"2026-09-02T14:57:10.298Z","action":"skip","executed":false,"reason":"liquidity skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T15:07:51.646Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.72,"dte":20,"qty":6,"sizeFactor":1.88,"symbol":"<contract>"}
+{"ts":"2026-09-02T15:11:42.673Z","action":"skip","executed":false,"reason":"regime-block skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T15:15:15.097Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.41,"dte":13,"qty":8,"sizeFactor":0.94,"symbol":"<contract>"}
+{"ts":"2026-09-02T15:23:09.789Z","action":"skip","executed":false,"reason":"dedup skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T15:32:12.890Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.53,"dte":24,"qty":3,"sizeFactor":1.83,"symbol":"<contract>"}
+{"ts":"2026-09-02T15:35:10.826Z","action":"skip","executed":false,"reason":"regime-block skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T15:37:09.915Z","action":"skip","executed":false,"reason":"dedup skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T15:39:51.200Z","action":"skip","executed":false,"reason":"dedup skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T15:44:36.945Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.45,"dte":35,"qty":6,"sizeFactor":0.92,"symbol":"<contract>"}
+{"ts":"2026-09-02T15:54:09.664Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.65,"dte":40,"qty":7,"sizeFactor":1.6,"symbol":"<contract>"}
+{"ts":"2026-09-02T15:58:33.284Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.8,"dte":12,"qty":5,"sizeFactor":1.95,"symbol":"<contract>"}
+{"ts":"2026-09-02T16:02:54.240Z","action":"skip","executed":false,"reason":"liquidity skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T16:04:09.293Z","action":"skip","executed":false,"reason":"liquidity skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T16:09:34.406Z","action":"skip","executed":false,"reason":"per-name-cap skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T16:16:26.734Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.47,"dte":11,"qty":6,"sizeFactor":0.6,"symbol":"<contract>"}
+{"ts":"2026-09-02T16:26:50.017Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.82,"dte":12,"qty":1,"sizeFactor":0.85,"symbol":"<contract>"}
+{"ts":"2026-09-02T16:29:55.672Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.76,"dte":8,"qty":6,"sizeFactor":1.26,"symbol":"<contract>"}
+{"ts":"2026-09-02T16:34:34.528Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.69,"dte":25,"qty":2,"sizeFactor":1,"symbol":"<contract>"}
+{"ts":"2026-09-02T16:39:41.383Z","action":"skip","executed":false,"reason":"dedup skip","gatePct":null,"dte":null,"qty":null,"sizeFactor":null}
+{"ts":"2026-09-02T16:42:38.981Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.94,"dte":27,"qty":7,"sizeFactor":0.98,"symbol":"<contract>"}
+{"ts":"2026-09-02T16:46:41.872Z","action":"buy","executed":true,"reason":"gated+selected+sized","gatePct":0.77,"dte":39,"qty":7,"sizeFactor":1.9,"symbol":"<contract>"}
