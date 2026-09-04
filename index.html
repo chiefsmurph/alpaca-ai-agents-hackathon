@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Silver Lynx Quant — our entry to the Alpaca AI Trading Agents Hackathon (lablab.ai). A bounded, auditable AI options-execution agent. Paper-trading competition project.">
-<meta name="theme-color" content="#080c12">
+<meta name="theme-color" content="#0a0a0d">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="canonical" href="https://alpaca-ai-agents.chiefsmurph.com/">
 <!-- Open Graph / Twitter — rich link previews -->
 <meta property="og:type" content="website">
@@ -21,24 +22,24 @@
 <style>
   /* ============ TOKENS ============ */
   :root{
-    --bg:#080c12;
-    --bg2:#0f141d;
-    --panel:#121824;
-    --panel2:#161d2b;
-    --line:#1f2a3d;
-    --line2:#2a394f;
+    --bg:#0a0a0d;
+    --bg2:#131217;
+    --panel:#17151d;
+    --panel2:#1e1b26;
+    --line:#2a2534;
+    --line2:#39333f;
     --ink:#e6edf6;
     --ink2:#aab7c9;
     --ink3:#7d8da0;
     --muted:#6b7889;
-    --accent:#15c7e6;
-    --accent-dim:#0e7d90;
-    --accent-ink:#062a31;
+    --accent:#e0b24d;
+    --accent-dim:#9c7c2e;
+    --accent-ink:#241a06;
     --good:#39d98a;
     --warn:#f0a24b;
     --bad:#f0616b;
     --mono:"SF Mono",ui-monospace,"JetBrains Mono","Cascadia Code",Menlo,Consolas,monospace;
-    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    --sans:'Instrument Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth;overscroll-behavior:none}
@@ -47,11 +48,11 @@
     font-family:var(--sans);font-size:16px;line-height:1.6;
     -webkit-font-smoothing:antialiased;
     background-image:
-      radial-gradient(900px 500px at 80% -10%, rgba(21,199,230,0.10), transparent 60%),
-      radial-gradient(700px 400px at 0% 10%, rgba(21,199,230,0.05), transparent 55%);
+      radial-gradient(900px 500px at 80% -10%, rgba(224,178,77,0.10), transparent 60%),
+      radial-gradient(700px 400px at 0% 10%, rgba(224,178,77,0.05), transparent 55%);
     background-attachment:fixed;
   }
-  ::selection{background:rgba(21,199,230,.24);color:var(--ink)}
+  ::selection{background:rgba(224,178,77,.24);color:var(--ink)}
   a{color:var(--accent);text-decoration:none}
   a:hover{text-decoration:none}
   a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
@@ -86,9 +87,9 @@
   /* ============ HERO ============ */
   .hero{
     padding:72px 0 68px;border-top:none;position:relative;overflow:hidden;
-    background:linear-gradient(180deg, rgba(21,199,230,0.04), transparent 70%);
+    background:linear-gradient(180deg, rgba(224,178,77,0.04), transparent 70%);
   }
-  .hero::after{content:"";position:absolute;width:540px;height:540px;right:-250px;top:-260px;border:1px solid rgba(21,199,230,.13);border-radius:50%;box-shadow:0 0 0 80px rgba(21,199,230,.018),0 0 0 160px rgba(21,199,230,.012);pointer-events:none}
+  .hero::after{content:"";position:absolute;width:540px;height:540px;right:-250px;top:-260px;border:1px solid rgba(224,178,77,.13);border-radius:50%;box-shadow:0 0 0 80px rgba(224,178,77,.018),0 0 0 160px rgba(224,178,77,.012);pointer-events:none}
   .brandrow{display:flex;align-items:center;gap:14px;margin-bottom:30px}
   .glyph{width:38px;height:38px;flex:none}
   .brandname{font-family:var(--mono);font-weight:600;letter-spacing:.04em;font-size:15px;color:var(--ink)}
@@ -102,14 +103,14 @@
   .button{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:10px 16px;border-radius:8px;border:1px solid var(--line2);font-family:var(--mono);font-size:12.5px;font-weight:650;letter-spacing:.02em;transition:transform .15s,border-color .15s,background .15s}
   .button:hover{transform:translateY(-1px)}
   .button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-  .button.primary:hover{background:#3ad3ec}
+  .button.primary:hover{background:#ecc76a}
   .button.secondary{color:var(--ink);background:var(--panel)}
   .button.secondary:hover{border-color:var(--accent-dim)}
   /* ============ DEMO VIDEO ============ */
   .video-frame{position:relative;margin-top:22px;border:1px solid var(--line2);border-radius:14px;overflow:hidden;background:var(--panel);aspect-ratio:16/9}
   .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-  .video-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px;background:radial-gradient(620px 300px at 50% 32%,rgba(21,199,230,.10),transparent 60%),var(--panel)}
-  .video-ph-play{width:66px;height:66px;border-radius:50%;border:1px solid var(--accent);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:24px;padding-left:5px;box-shadow:0 0 0 10px rgba(21,199,230,.05)}
+  .video-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px;background:radial-gradient(620px 300px at 50% 32%,rgba(224,178,77,.10),transparent 60%),var(--panel)}
+  .video-ph-play{width:66px;height:66px;border-radius:50%;border:1px solid var(--accent);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:24px;padding-left:5px;box-shadow:0 0 0 10px rgba(224,178,77,.05)}
   .video-ph-txt{font-family:var(--mono);font-size:12px;color:var(--ink3);letter-spacing:.04em}
   .kpis{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
   .kpi{
@@ -186,7 +187,7 @@
     flex:1;background:var(--bg2);border:1px solid var(--line2);border-radius:12px;padding:16px 14px;text-align:center;position:relative;
   }
   .node.closed{border-style:dashed;border-color:var(--line2);background:repeating-linear-gradient(135deg,var(--bg2),var(--bg2) 8px,rgba(255,255,255,0.012) 8px,rgba(255,255,255,0.012) 16px)}
-  .node.accent{border-color:var(--accent-dim);box-shadow:0 0 0 1px rgba(21,199,230,0.15) inset}
+  .node.accent{border-color:var(--accent-dim);box-shadow:0 0 0 1px rgba(224,178,77,0.15) inset}
   .node .ico{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
   .node .nm{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;line-height:1.25}
   .node .sub{font-size:11.5px;color:var(--ink3);line-height:1.4}
@@ -199,7 +200,7 @@
   .lg-box{width:16px;height:12px;border-radius:3px;border:1px solid var(--line2);flex:none}
   .lg-box.closed{border-style:dashed;background:repeating-linear-gradient(135deg,var(--bg2),var(--bg2) 4px,rgba(255,255,255,0.02) 4px,rgba(255,255,255,0.02) 8px)}
   .lg-box.open{background:var(--bg2)}
-  .lg-box.acc{border-color:var(--accent-dim);background:rgba(21,199,230,0.12)}
+  .lg-box.acc{border-color:var(--accent-dim);background:rgba(224,178,77,0.12)}
   .split-note{margin-top:20px;font-size:14px;color:var(--ink2);border-left:2px solid var(--accent);padding-left:16px}
   .split-note b{color:var(--ink)}
 
@@ -212,7 +213,7 @@
   }
   tbody td{padding:15px 18px;border-bottom:1px solid var(--line);color:var(--ink2);vertical-align:top}
   tbody tr:last-child td{border-bottom:none}
-  tbody tr.flagship{background:linear-gradient(90deg,rgba(21,199,230,0.06),transparent)}
+  tbody tr.flagship{background:linear-gradient(90deg,rgba(224,178,77,0.06),transparent)}
   .cell-name{color:var(--ink);font-weight:600}
   .cell-name .flag{font-family:var(--mono);font-size:10px;color:var(--accent-ink);background:var(--accent);border-radius:4px;padding:1px 6px;margin-left:8px;letter-spacing:.05em;vertical-align:middle}
   .ai-on{color:var(--accent);font-family:var(--mono);font-size:12.5px}
@@ -268,7 +269,7 @@
   .occ-link:hover{border-color:var(--accent-dim);color:var(--ink);transform:translateY(-1px)}
   .occ-link svg{width:15px;height:15px;flex:none}
   .occ-link.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:650}
-  .occ-link.primary:hover{background:#3ad3ec;color:var(--accent-ink)}
+  .occ-link.primary:hover{background:#ecc76a;color:var(--accent-ink)}
   .occ-ver{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.03em}
 
   /* ============ ALPHA <-> AGENT ============ */
@@ -293,7 +294,7 @@
 
   /* ============ CLOSE ============ */
   .close{
-    text-align:center;background:linear-gradient(180deg,transparent, rgba(21,199,230,0.05));
+    text-align:center;background:linear-gradient(180deg,transparent, rgba(224,178,77,0.05));
     padding:72px 0 80px;
   }
   .close h2{font-size:34px;max-width:22ch;margin:0 auto 18px}
@@ -336,7 +337,7 @@
   /* ============ PRINT / PDF (slide-style) ============ */
   @media print{
     @page{size:1280px 720px;margin:0}
-    :root{--bg:#0a0e14}
+    :root{--bg:#0a0a0d}
     html,body{background:#0a0e14 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust:exact}
     body{font-size:13px;background-image:none !important}
     .wrap{max-width:1180px;padding:0 56px}
@@ -358,7 +359,7 @@
       content:"SILVER LYNX";position:absolute;bottom:22px;right:56px;
       font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);
     }
-    .hero{background:linear-gradient(180deg,rgba(21,199,230,0.06),transparent 70%) !important}
+    .hero{background:linear-gradient(180deg,rgba(224,178,77,0.06),transparent 70%) !important}
     .hero h1{font-size:44px}
     .hero .pitch{font-size:17px}
     h2{font-size:26px}
@@ -391,6 +392,8 @@
     .brandtag{display:inline}
     .no-print,.site-nav,.skip-link,.hero-actions,#demo{display:none !important}
   }
+  h1,h2,h3,.brandname,.nav-brand{font-family:'Saira',var(--sans)}
+  .hero h1{letter-spacing:-.03em}
 </style>
 </head>
 <body>
@@ -420,9 +423,9 @@
   <div class="wrap">
     <div class="brandrow">
       <svg class="glyph" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <path d="M20 3 L34 11 V26 L20 37 L6 26 V11 Z" stroke="#15c7e6" stroke-width="1.6" opacity="0.55"/>
-        <path d="M13 15 L20 11 L27 15 M13 15 V23 L20 27 L27 23 V15" stroke="#15c7e6" stroke-width="1.8" fill="none"/>
-        <circle cx="20" cy="19" r="2.4" fill="#15c7e6"/>
+        <path d="M20 3 L34 11 V26 L20 37 L6 26 V11 Z" stroke="#e0b24d" stroke-width="1.6" opacity="0.55"/>
+        <path d="M13 15 L20 11 L27 15 M13 15 V23 L20 27 L27 23 V15" stroke="#e0b24d" stroke-width="1.8" fill="none"/>
+        <circle cx="20" cy="19" r="2.4" fill="#e0b24d"/>
       </svg>
       <div>
         <div class="brandname">SILVER&nbsp;<b>LYNX</b>&nbsp;QUANT</div>
