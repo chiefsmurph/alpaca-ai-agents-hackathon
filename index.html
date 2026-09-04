@@ -179,7 +179,7 @@
   /* ============ ARCHITECTURE ============ */
   .arch{
     margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:16px;
-    padding:30px 26px;overflow-x:auto;
+    padding:30px 26px;overflow-x:auto;overscroll-behavior-x:none;
   }
   .flow{display:flex;align-items:stretch;gap:0;min-width:820px}
   .node{
@@ -231,7 +231,7 @@
   .ev-body p{margin:0 0 14px;font-size:13.5px;color:var(--ink2)}
   .ev-body p:last-child{margin-bottom:0}
   pre.term{
-    background:#080b11;border:1px solid var(--line2);border-radius:10px;padding:16px 18px;overflow-x:auto;
+    background:#080b11;border:1px solid var(--line2);border-radius:10px;padding:16px 18px;overflow-x:auto;overscroll-behavior-x:none;
     font-size:12.5px;line-height:1.6;color:var(--ink2);margin:0 0 14px;
   }
   pre.term:last-child{margin-bottom:0}
@@ -330,7 +330,7 @@
     section{padding:54px 0;scroll-margin-top:54px}
     .scroll-hint{display:block}
     table{min-width:720px}
-    .tablewrap{overflow-x:auto}
+    .tablewrap{overflow-x:auto;overscroll-behavior-x:none}
   }
 
   /* ============ PRINT / PDF (slide-style) ============ */
