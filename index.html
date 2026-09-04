@@ -105,6 +105,12 @@
   .button.primary:hover{background:#3ad3ec}
   .button.secondary{color:var(--ink);background:var(--panel)}
   .button.secondary:hover{border-color:var(--accent-dim)}
+  /* ============ DEMO VIDEO ============ */
+  .video-frame{position:relative;margin-top:22px;border:1px solid var(--line2);border-radius:14px;overflow:hidden;background:var(--panel);aspect-ratio:16/9}
+  .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .video-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px;background:radial-gradient(620px 300px at 50% 32%,rgba(21,199,230,.10),transparent 60%),var(--panel)}
+  .video-ph-play{width:66px;height:66px;border-radius:50%;border:1px solid var(--accent);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:24px;padding-left:5px;box-shadow:0 0 0 10px rgba(21,199,230,.05)}
+  .video-ph-txt{font-family:var(--mono);font-size:12px;color:var(--ink3);letter-spacing:.04em}
   .kpis{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
   .kpi{
     background:linear-gradient(180deg,rgba(22,29,43,.94),rgba(18,24,36,.94));border:1px solid var(--line);border-radius:10px;
@@ -376,7 +382,7 @@
     .grid5{grid-template-columns:1fr 1fr !important}
     /* hide hover-only affordances irrelevant to print */
     .brandtag{display:inline}
-    .no-print,.site-nav,.skip-link,.hero-actions{display:none !important}
+    .no-print,.site-nav,.skip-link,.hero-actions,#demo{display:none !important}
   }
 </style>
 </head>
@@ -424,9 +430,9 @@
       the ask. Every intervention is journaled and replayable.
     </p>
     <div class="hero-actions">
-      <a class="button primary" href="#evidence">Inspect the evidence <span aria-hidden="true">↓</span></a>
+      <a class="button primary" href="#demo">Watch the demo <span aria-hidden="true">▶</span></a>
+      <a class="button secondary" href="#evidence">Inspect the evidence <span aria-hidden="true">↓</span></a>
       <a class="button secondary" href="https://github.com/chiefsmurph/silver-lynx-quant" target="_blank" rel="noreferrer">View source on GitHub <span aria-hidden="true">↗</span></a>
-      <a class="button secondary" href="https://github.com/chiefsmurph/silver-lynx-quant/blob/main/architecture.md" target="_blank" rel="noreferrer">Read architecture <span aria-hidden="true">↗</span></a>
     </div>
 
     <div class="kpis">
@@ -448,6 +454,25 @@
 </header>
 
 <main id="main">
+
+<!-- ============ DEMO VIDEO ============ -->
+<section id="demo">
+  <div class="wrap">
+    <p class="eyebrow">Watch the demo</p>
+    <h2>See it run — a builder's tour</h2>
+    <p class="lede">A short walk-through of the bounded overlay, the decision journal, and the arrival-anchored fill engine — narrated by the person who built it. The site is the reference; this is the guided tour.</p>
+    <div class="video-frame">
+      <!-- DROP-IN: paste the unlisted YouTube/Loom EMBED url below, then delete the .video-ph block.
+      <iframe src="VIDEO_EMBED_URL" title="Silver Lynx — demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      -->
+      <div class="video-ph">
+        <div class="video-ph-play">▶</div>
+        <div class="video-ph-txt">demo video — dropping in before the submission</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ SLIDE 2 — HOW THE AI'S VALUE IS MEASURED (the honest headline) ============ -->
 <section id="ai-value">
   <div class="wrap">
