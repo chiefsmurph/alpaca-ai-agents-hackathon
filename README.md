@@ -1,11 +1,11 @@
-# Silver Lynx — The Bounded AI Options Desk
+# Silver Lynx Quant — Alpaca AI Trading Agents Hackathon entry
 
 > A live, fully-transparent, LLM-in-the-loop options-execution agent that trades private
 > alpha through a multi-layer deterministic risk gauntlet — executing through Alpaca's
 > official MCP server, and exposing its own read-only MCP server so a judge's LLM can
 > inspect it in real time.
 
-*Built for the Alpaca AI Trading Agents hackathon.*
+*Team **Silver Lynx Quant** · built for the [Alpaca AI Trading Agents Hackathon](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon) on lablab.ai · Alpaca paper trading.*
 
 ---
 
