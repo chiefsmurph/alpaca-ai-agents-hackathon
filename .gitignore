@@ -1,0 +1,12 @@
+# This is a curated public showcase — keep it that way.
+# Never commit secrets, real env, or the private agent's data.
+.env
+.env.*
+*.key
+*.pem
+data/
+decisions.jsonl
+node_modules/
+dist/
+*.log
+.DS_Store

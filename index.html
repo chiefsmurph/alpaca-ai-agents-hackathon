@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Silver Lynx — The Bounded AI Options Desk</title>
+<style>
+  /* ============ TOKENS ============ */
+  :root{
+    --bg:#0a0e14;
+    --bg2:#0f141d;
+    --panel:#121824;
+    --panel2:#161d2b;
+    --line:#1f2a3d;
+    --line2:#2a394f;
+    --ink:#e6edf6;
+    --ink2:#aab7c9;
+    --ink3:#7d8da0;
+    --muted:#6b7889;
+    --accent:#15c7e6;
+    --accent-dim:#0e7d90;
+    --accent-ink:#062a31;
+    --good:#39d98a;
+    --warn:#f0a24b;
+    --bad:#f0616b;
+    --mono:"SF Mono",ui-monospace,"JetBrains Mono","Cascadia Code",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:var(--sans);font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(900px 500px at 80% -10%, rgba(21,199,230,0.10), transparent 60%),
+      radial-gradient(700px 400px at 0% 10%, rgba(21,199,230,0.05), transparent 55%);
+    background-attachment:fixed;
+  }
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,pre,.mono{font-family:var(--mono)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+
+  /* ============ SECTION SCAFFOLD ============ */
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  section:first-of-type{border-top:none}
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent);margin:0 0 14px;display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent);display:inline-block}
+  h1,h2,h3{line-height:1.15;margin:0}
+  h2{font-size:30px;font-weight:700;letter-spacing:-.01em;margin-bottom:10px}
+  .lede{color:var(--ink2);font-size:17px;max-width:74ch;margin:0 0 6px}
+
+  /* ============ HERO ============ */
+  .hero{
+    padding:76px 0 60px;border-top:none;position:relative;
+    background:linear-gradient(180deg, rgba(21,199,230,0.04), transparent 70%);
+  }
+  .brandrow{display:flex;align-items:center;gap:14px;margin-bottom:30px}
+  .glyph{width:38px;height:38px;flex:none}
+  .brandname{font-family:var(--mono);font-weight:600;letter-spacing:.04em;font-size:15px;color:var(--ink)}
+  .brandname b{color:var(--accent)}
+  .brandtag{font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:auto;letter-spacing:.05em}
+  .hero h1{font-size:52px;font-weight:800;letter-spacing:-.025em;margin-bottom:18px;max-width:20ch}
+  .hero h1 .hl{color:var(--accent)}
+  .hero .pitch{font-size:20px;color:var(--ink2);max-width:70ch;line-height:1.55}
+  .hero .pitch b{color:var(--ink)}
+  .kpis{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+  .kpi{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:16px 20px;min-width:150px;flex:1 1 150px;
+  }
+  .kpi .n{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--accent);line-height:1}
+  .kpi .l{font-size:12.5px;color:var(--ink3);margin-top:8px;letter-spacing:.02em}
+  .taglist{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+  .tag{
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.03em;color:var(--ink2);
+    border:1px solid var(--line2);border-radius:999px;padding:5px 12px;background:rgba(255,255,255,0.015);
+  }
+  .tag b{color:var(--accent)}
+
+  /* ============ HEADLINE / AI-VALUE ============ */
+  .headline-panel{
+    background:linear-gradient(180deg,var(--panel2),var(--panel));
+    border:1px solid var(--line2);border-radius:16px;padding:34px 34px 30px;margin-top:8px;
+    position:relative;overflow:hidden;
+  }
+  .headline-panel::before{
+    content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--accent);
+  }
+  .honest{
+    display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--accent-ink);background:var(--accent);border-radius:5px;padding:3px 9px;margin-bottom:16px;font-weight:700;
+  }
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:24px}
+  .vs-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:20px}
+  .vs-card h4{margin:0 0 8px;font-size:14px;letter-spacing:.02em}
+  .vs-card.bad h4{color:var(--bad)}
+  .vs-card.good h4{color:var(--good)}
+  .vs-card p{margin:0;font-size:14px;color:var(--ink2);line-height:1.5}
+  .clamp-viz{margin-top:26px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:22px 24px}
+  .clamp-label{font-family:var(--mono);font-size:12px;color:var(--ink3);letter-spacing:.05em;margin-bottom:14px}
+  .clamp-track{position:relative;height:46px;margin:6px 0 4px}
+  .clamp-bar{position:absolute;top:18px;left:0;right:0;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--bad) 0%, var(--warn) 25%, var(--accent) 50%, var(--good) 100%);opacity:.85}
+  .clamp-tick{position:absolute;top:6px;width:2px;height:32px;background:var(--line2)}
+  .clamp-marker{position:absolute;top:-2px;transform:translateX(-50%);font-family:var(--mono);font-size:11px;color:var(--ink2);text-align:center;white-space:nowrap}
+  .clamp-marker .dot{display:block;width:11px;height:11px;border-radius:50%;background:var(--ink);border:2px solid var(--bg2);margin:22px auto 5px}
+  .clamp-marker.z .dot{background:var(--bad)}
+  .clamp-marker.g .dot{background:var(--accent)}
+  .clamp-marker.h .dot{background:var(--good)}
+  .clamp-caption{font-size:13px;color:var(--ink3);margin-top:10px}
+
+  /* ============ FEATURE GRID (5 hooks) ============ */
+  .grid5{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:8px}
+  .feature{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;transition:border-color .15s;
+  }
+  .feature:hover{border-color:var(--line2)}
+  .feature .num{
+    font-family:var(--mono);font-size:12px;color:var(--accent);border:1px solid var(--accent-dim);
+    border-radius:6px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;
+    margin-bottom:14px;font-weight:600;
+  }
+  .feature h3{font-size:17px;margin-bottom:9px;letter-spacing:-.01em}
+  .feature p{margin:0;font-size:14px;color:var(--ink2);line-height:1.55}
+  .feature p .k{color:var(--ink);font-family:var(--mono);font-size:13px}
+  .feature.span2{grid-column:1 / -1;background:linear-gradient(180deg,var(--panel2),var(--panel))}
+  .pocket{display:flex;gap:16px;align-items:flex-start}
+  .pocket .pill{font-family:var(--mono);font-size:11px;color:var(--accent);border:1px solid var(--accent-dim);border-radius:6px;padding:4px 9px;white-space:nowrap;margin-top:2px}
+
+  /* ============ ARCHITECTURE ============ */
+  .arch{
+    margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:30px 26px;overflow-x:auto;
+  }
+  .flow{display:flex;align-items:stretch;gap:0;min-width:820px}
+  .node{
+    flex:1;background:var(--bg2);border:1px solid var(--line2);border-radius:12px;padding:16px 14px;text-align:center;position:relative;
+  }
+  .node.closed{border-style:dashed;border-color:var(--line2);background:repeating-linear-gradient(135deg,var(--bg2),var(--bg2) 8px,rgba(255,255,255,0.012) 8px,rgba(255,255,255,0.012) 16px)}
+  .node.accent{border-color:var(--accent-dim);box-shadow:0 0 0 1px rgba(21,199,230,0.15) inset}
+  .node .ico{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+  .node .nm{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;line-height:1.25}
+  .node .sub{font-size:11.5px;color:var(--ink3);line-height:1.4}
+  .node.accent .nm{color:var(--accent)}
+  .arrow{flex:none;width:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--accent)}
+  .arrow svg{width:26px;height:26px}
+  .arrow .lbl{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.04em;text-align:center;line-height:1.2}
+  .arch-legend{display:flex;flex-wrap:wrap;gap:18px;margin-top:22px;font-size:12.5px;color:var(--ink3)}
+  .arch-legend span{display:flex;align-items:center;gap:7px}
+  .lg-box{width:16px;height:12px;border-radius:3px;border:1px solid var(--line2);flex:none}
+  .lg-box.closed{border-style:dashed;background:repeating-linear-gradient(135deg,var(--bg2),var(--bg2) 4px,rgba(255,255,255,0.02) 4px,rgba(255,255,255,0.02) 8px)}
+  .lg-box.open{background:var(--bg2)}
+  .lg-box.acc{border-color:var(--accent-dim);background:rgba(21,199,230,0.12)}
+  .split-note{margin-top:20px;font-size:14px;color:var(--ink2);border-left:2px solid var(--accent);padding-left:16px}
+  .split-note b{color:var(--ink)}
+
+  /* ============ FLEET TABLE ============ */
+  .tablewrap{margin-top:12px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  thead th{
+    background:var(--panel2);text-align:left;padding:14px 18px;font-size:12px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line2);font-weight:600;
+  }
+  tbody td{padding:15px 18px;border-bottom:1px solid var(--line);color:var(--ink2);vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr.flagship{background:linear-gradient(90deg,rgba(21,199,230,0.06),transparent)}
+  .cell-name{color:var(--ink);font-weight:600}
+  .cell-name .flag{font-family:var(--mono);font-size:10px;color:var(--accent-ink);background:var(--accent);border-radius:4px;padding:1px 6px;margin-left:8px;letter-spacing:.05em;vertical-align:middle}
+  .ai-on{color:var(--accent);font-family:var(--mono);font-size:12.5px}
+  .ai-off{color:var(--muted);font-family:var(--mono);font-size:12.5px}
+  .matched-note{margin-top:14px;font-size:13px;color:var(--ink3)}
+  .matched-note code{color:var(--ink2);font-size:12px}
+
+  /* ============ EVIDENCE ============ */
+  .ev{margin-top:20px;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .ev + .ev{margin-top:20px}
+  .ev-head{padding:16px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;background:var(--panel2)}
+  .ev-head .dot{width:9px;height:9px;border-radius:50%;background:var(--good);flex:none;box-shadow:0 0 8px rgba(57,217,138,.5)}
+  .ev-head h3{font-size:15px;letter-spacing:-.01em}
+  .ev-head .file{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-left:auto}
+  .ev-body{padding:20px 22px}
+  .ev-body p{margin:0 0 14px;font-size:13.5px;color:var(--ink2)}
+  .ev-body p:last-child{margin-bottom:0}
+  pre.term{
+    background:#080b11;border:1px solid var(--line2);border-radius:10px;padding:16px 18px;overflow-x:auto;
+    font-size:12.5px;line-height:1.6;color:var(--ink2);margin:0 0 14px;
+  }
+  pre.term:last-child{margin-bottom:0}
+  .term .c-key{color:var(--accent)}
+  .term .c-str{color:var(--good)}
+  .term .c-num{color:var(--warn)}
+  .term .c-com{color:var(--muted)}
+  .term .c-ok{color:var(--good);font-weight:600}
+  .term .c-red{color:var(--bad)}
+  .ev-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:760px){.ev-grid{grid-template-columns:1fr}}
+
+  /* ============ OCC ============ */
+  .occ{display:grid;grid-template-columns:1.3fr 1fr;gap:26px;align-items:center;margin-top:8px}
+  .occ-viz{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px 24px}
+  .occ-sym{font-family:var(--mono);font-size:22px;letter-spacing:.02em;text-align:center;margin-bottom:20px}
+  .occ-sym .u{color:var(--accent)}
+  .occ-sym .d{color:var(--warn)}
+  .occ-sym .r{color:var(--good)}
+  .occ-sym .s{color:var(--ink)}
+  .occ-parts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-family:var(--mono);font-size:11px;text-align:center}
+  .occ-parts div span{display:block;color:var(--muted);margin-bottom:3px}
+  .occ-parts .pu{color:var(--accent)}
+  .occ-parts .pd{color:var(--warn)}
+  .occ-parts .pr{color:var(--good)}
+  .occ-parts .ps{color:var(--ink)}
+  .occ-copy h3{font-size:19px;margin-bottom:12px}
+  .occ-copy p{font-size:14px;color:var(--ink2);margin:0 0 12px}
+  .occ-badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .badge{font-family:var(--mono);font-size:12px;border:1px solid var(--line2);border-radius:8px;padding:7px 12px;color:var(--ink2)}
+  .badge b{color:var(--accent)}
+
+  /* ============ ALPHA <-> AGENT ============ */
+  .quote-panel{
+    margin-top:10px;background:linear-gradient(180deg,var(--panel2),var(--panel));
+    border:1px solid var(--line2);border-radius:16px;padding:34px 36px;position:relative;
+  }
+  .quote-panel .mark{font-family:Georgia,serif;font-size:64px;color:var(--accent-dim);line-height:.4;position:absolute;top:26px;left:22px;opacity:.5}
+  blockquote{margin:0 0 0 34px;font-size:18px;line-height:1.6;color:var(--ink);font-style:italic}
+  blockquote b{color:var(--accent);font-style:normal}
+  .desk-split{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center;margin-top:30px}
+  .desk{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:20px}
+  .desk h4{margin:0 0 6px;font-size:15px}
+  .desk.signal h4{color:var(--warn)}
+  .desk.exec h4{color:var(--accent)}
+  .desk p{margin:0;font-size:13px;color:var(--ink3);line-height:1.5}
+  .desk .lock{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;margin-top:12px;color:var(--muted)}
+  .seam{text-align:center;color:var(--accent)}
+  .seam svg{width:30px;height:30px}
+  .seam .lbl{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:6px;max-width:90px;line-height:1.3}
+  @media(max-width:760px){.desk-split{grid-template-columns:1fr}.seam{transform:rotate(90deg)}}
+
+  /* ============ CLOSE ============ */
+  .close{
+    text-align:center;background:linear-gradient(180deg,transparent, rgba(21,199,230,0.05));
+    padding:72px 0 80px;
+  }
+  .close h2{font-size:34px;max-width:22ch;margin:0 auto 18px}
+  .close h2 .hl{color:var(--accent)}
+  .close .sub{color:var(--ink2);font-size:17px;max-width:64ch;margin:0 auto 28px}
+  .close .chips{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+  .chip{
+    font-family:var(--mono);font-size:13px;border:1px solid var(--line2);border-radius:10px;
+    padding:10px 16px;color:var(--ink2);background:var(--panel);
+  }
+  .chip b{color:var(--accent)}
+  footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:12.5px;text-align:center;font-family:var(--mono)}
+  footer .warn{color:var(--warn)}
+
+  /* ============ RESPONSIVE ============ */
+  @media(max-width:760px){
+    .hero h1{font-size:36px}
+    h2{font-size:24px}
+    .two-col,.grid5,.occ{grid-template-columns:1fr}
+    section{padding:48px 0}
+  }
+
+  /* ============ PRINT / PDF (slide-style) ============ */
+  @media print{
+    @page{size:1280px 720px;margin:0}
+    :root{--bg:#0a0e14}
+    html,body{background:#0a0e14 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust:exact}
+    body{font-size:13px;background-image:none !important}
+    .wrap{max-width:1180px;padding:0 56px}
+    a{color:var(--accent) !important;text-decoration:none}
+    /* each top-level section becomes one landscape slide */
+    section, .hero{
+      border-top:none !important;
+      height:716px;max-height:716px;
+      padding:44px 0 !important;
+      display:flex;flex-direction:column;justify-content:center;
+      page-break-after:always;break-after:page;overflow:hidden;
+      position:relative;
+    }
+    /* the close slide absorbs the footer so no stray 10th page is created */
+    section#close{page-break-after:auto;break-after:auto;height:auto;max-height:none;min-height:560px;justify-content:flex-start}
+    footer{page-break-before:avoid;break-before:avoid;border-top:none !important;padding:14px 0 !important}
+    /* slide number */
+    section::after{
+      content:"SILVER LYNX";position:absolute;bottom:22px;right:56px;
+      font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);
+    }
+    .hero{background:linear-gradient(180deg,rgba(21,199,230,0.06),transparent 70%) !important}
+    .hero h1{font-size:44px}
+    .hero .pitch{font-size:17px}
+    h2{font-size:26px}
+    /* keep blocks intact on their slide */
+    .feature,.ev,.node,.kpi,.vs-card,.desk,.headline-panel,.arch,.tablewrap,.occ-viz,.quote-panel,.clamp-viz{
+      break-inside:avoid;page-break-inside:avoid;
+    }
+    .grid5{gap:12px}
+    .feature{padding:16px}
+    .feature p{font-size:12px}
+    .arch{overflow:visible}
+    .flow{min-width:0}
+    pre.term{font-size:10px;padding:12px 14px;line-height:1.5}
+    .ev-body{padding:11px 18px}
+    /* keep two-column evidence grids side-by-side on the wide print page */
+    .ev-grid{grid-template-columns:1fr 1fr !important;gap:16px}
+    .ev + .ev, .ev{margin-top:12px}
+    .ev-head{padding:11px 20px}
+    .ev-body p{font-size:11.5px;margin-bottom:8px}
+    section#evidence h2, section#evidence-mcp h2{margin-bottom:4px}
+    section#evidence .lede, section#evidence-mcp .lede{margin-bottom:12px;font-size:14px}
+    section#evidence, section#evidence-mcp{padding:34px 0 !important}
+    /* neutralize mobile-collapse rules on the wide print page */
+    .desk-split{grid-template-columns:1fr auto 1fr !important;gap:18px}
+    .seam{transform:none !important}
+    .two-col{grid-template-columns:1fr 1fr !important}
+    .occ{grid-template-columns:1.3fr 1fr !important}
+    .grid5{grid-template-columns:1fr 1fr !important}
+    /* hide hover-only affordances irrelevant to print */
+    .brandtag{display:inline}
+    .no-print{display:none !important}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO / SLIDE 1 ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="brandrow">
+      <svg class="glyph" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 3 L34 11 V26 L20 37 L6 26 V11 Z" stroke="#15c7e6" stroke-width="1.6" opacity="0.55"/>
+        <path d="M13 15 L20 11 L27 15 M13 15 V23 L20 27 L27 23 V15" stroke="#15c7e6" stroke-width="1.8" fill="none"/>
+        <circle cx="20" cy="19" r="2.4" fill="#15c7e6"/>
+      </svg>
+      <div>
+        <div class="brandname">SILVER&nbsp;<b>LYNX</b></div>
+      </div>
+      <div class="brandtag">quant · execution &amp; risk desk</div>
+    </div>
+
+    <h1>The <span class="hl">Bounded AI</span> Options Desk.</h1>
+    <p class="pitch">
+      A live options-execution agent that <b>proves its AI is worth it</b> — a bounded model overlay
+      that can only <b>veto or resize</b>, never invent new risk — running private alpha through a
+      multi-layer deterministic risk gauntlet, executing real orders through <b>Alpaca's official MCP server</b>.
+    </p>
+
+    <div class="kpis">
+      <div class="kpi"><div class="n">34,292</div><div class="l">decisions journaled &amp; queryable</div></div>
+      <div class="kpi"><div class="n">~10</div><div class="l">kill-switchable risk gates before the AI</div></div>
+      <div class="kpi"><div class="n">[0, 2×]</div><div class="l">hard clamp on every AI resize</div></div>
+      <div class="kpi"><div class="n">143 / 143</div><div class="l">tests passing (incl. the adversarial fill test)</div></div>
+    </div>
+
+    <div class="taglist">
+      <span class="tag"><b>MCP</b> client &amp; server</span>
+      <span class="tag">fails <b>open</b></span>
+      <span class="tag">100% <b>auditable</b> agent</span>
+      <span class="tag">closed alpha, <b>open</b> execution</span>
+      <span class="tag"><b>occ-symbol</b> · npm + PyPI</span>
+      <span class="tag">live 24/7 · Alpaca paper account</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ SLIDE 2 — HOW THE AI'S VALUE IS MEASURED (the honest headline) ============ -->
+<section id="ai-value">
+  <div class="wrap">
+    <p class="eyebrow">The honest headline</p>
+    <h2>How the AI's value is measured</h2>
+    <p class="lede">Not a hand-wavy account race. Measured trade-by-trade, where the AI actually acts — at the decision.</p>
+
+    <div class="headline-panel">
+      <span class="honest">Decision-journal audit</span>
+      <p class="lede" style="max-width:82ch">
+        The three live cells differ in more than the AI — different holding-period windows, different
+        leverage — so any raw account-vs-account P&amp;L delta is <b style="color:var(--ink)">confounded</b>.
+        Instead, the AI's contribution is measured where it happens: every candidate the agent evaluates
+        appends one structured JSON line recording <b style="color:var(--ink)">what the deterministic gate decided</b>
+        and, on the flagship, <b style="color:var(--ink)">exactly how the AI modified it</b>.
+      </p>
+
+      <div class="two-col">
+        <div class="vs-card bad">
+          <h4>✕ The tempting-but-wrong claim</h4>
+          <p>"Three identical cells; the account delta is the AI." — It isn't. The cells carry different
+             DTE windows and leverage, so a P&amp;L gap can't isolate the model's judgment.</p>
+        </div>
+        <div class="vs-card good">
+          <h4>✓ What we actually claim</h4>
+          <p>A per-trade, replayable audit trail. Filter the journal to the flagship's AI interventions and read,
+             one by one, every candidate it vetoed and every one it up- or down-sized — with the gate's original
+             decision alongside.</p>
+        </div>
+      </div>
+
+      <div class="clamp-viz">
+        <div class="clamp-label">THE AI'S ENTIRE ACTION SPACE — a size factor on an already-cleared candidate</div>
+        <div class="clamp-track">
+          <div class="clamp-bar"></div>
+          <div class="clamp-tick" style="left:0%"></div>
+          <div class="clamp-tick" style="left:50%"></div>
+          <div class="clamp-tick" style="left:100%"></div>
+          <div class="clamp-marker z" style="left:0%"><span class="dot"></span>0× — veto</div>
+          <div class="clamp-marker g" style="left:50%"><span class="dot"></span>1× — gate size</div>
+          <div class="clamp-marker h" style="left:100%"><span class="dot"></span>2× — max resize</div>
+        </div>
+        <p class="clamp-caption">
+          The AI can <b style="color:var(--ink2)">only</b> move a candidate inside this clamp. It can never widen a gate,
+          invent a name, or add risk the deterministic layer didn't already clear — so its footprint is
+          <b style="color:var(--ink2)">fully separable</b> from the strategy's. The journal is live-queryable over a
+          read-only MCP tool: a judge points their own LLM at the running system.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 3 — 5 HOOKS FEATURE GRID ============ -->
+<section id="hooks">
+  <div class="wrap">
+    <p class="eyebrow">Why it stands out</p>
+    <h2>Five things a judge can verify</h2>
+    <p class="lede">Each is backed by captured evidence below — a log line, a test, a journal record.</p>
+
+    <div class="grid5">
+      <div class="feature">
+        <div class="num">1</div>
+        <h3>The AI proves its worth line by line</h3>
+        <p>Every candidate is journaled with what the deterministic gate decided and exactly how the AI moved it —
+           veto to size <span class="k">0</span>, or resize within <span class="k">[0, 2×]</span>.
+           <span class="k">34,292</span> decisions logged; every AI intervention auditable — not a fuzzy account race.</p>
+      </div>
+      <div class="feature">
+        <div class="num">2</div>
+        <h3>A rising ask cannot make us overpay</h3>
+        <p>One dollar ceiling, anchored to the arrival quote, clamps every rung, walk step, spray shot and sweep.
+           A test drives the ask up <span class="k">+50%</span> mid-fill and asserts no recorded price ever crosses it.</p>
+      </div>
+      <div class="feature">
+        <div class="num">3</div>
+        <h3>A costly API bill → a two-tier token budget</h3>
+        <p>One raw feed position is tens of thousands of tokens. Serialized whole, it burned real money against a
+           hard prepaid cap. We project it to a few hundred curated scalars — roughly <span class="k">30× cheaper</span>
+           per call, and the model sees <em>more</em> structured signal.
+           <span style="color:var(--ink3)">Receipt: raw ~114k–255k chars → compacted ≤ ~3k chars (see <span class="mono">evidence/token-budget.md</span>).</span></p>
+      </div>
+      <div class="feature">
+        <div class="num">4</div>
+        <h3>Bounded by math, and it fails open</h3>
+        <p>A forced tool-call lets the model only reject (size 0) or resize within <span class="k">[0, 2×]</span>;
+           leg prices are clamped to <span class="k">[0, 1]</span> of the spread — a hard guarantee against the classic
+           chase-the-ask failure. If the model errors, the proven strategy keeps trading.</p>
+      </div>
+      <div class="feature">
+        <div class="num">5</div>
+        <h3>An MCP client <em>and</em> a read-only MCP server</h3>
+        <p>It places real orders through Alpaca's official MCP server, and exposes its own inspection server so a
+           grader's LLM can reason over live account state — every decision returned as a queryable JSON line.</p>
+      </div>
+      <div class="feature span2">
+        <div class="pocket">
+          <span class="pill">POCKET FLEX</span>
+          <div>
+            <h3 style="margin-bottom:6px">occ-symbol — dual-published open-source plumbing</h3>
+            <p>A zero-dependency OCC option-symbol parser on <span class="k">npm + PyPI</span>. The Python port
+               reimplements JavaScript's half-away-from-zero rounding (Python's <span class="k">round()</span> uses
+               banker's rounding) so the two stay <em>byte-identical</em> on exact half-thousandth strikes. Mis-parsed
+               option tickers route orders to the wrong contract — this is the boring, money-saving plumbing done right.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 4 — ARCHITECTURE ============ -->
+<section id="architecture">
+  <div class="wrap">
+    <p class="eyebrow">The pipeline</p>
+    <h2>Closed alpha in. Open, auditable execution out.</h2>
+    <p class="lede">Signals cross a single thin, read-only, typed socket. Everything downstream is in the open repo.</p>
+
+    <div class="arch">
+      <div class="flow">
+        <div class="node closed">
+          <div class="ico">Signal desk · closed</div>
+          <div class="nm">Proprietary Research Engine</div>
+          <div class="sub">private alpha — a black box</div>
+        </div>
+        <div class="arrow">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 12h16M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="lbl">read-only<br>typed socket</div>
+        </div>
+        <div class="node">
+          <div class="ico">gate</div>
+          <div class="nm">Risk Gauntlet</div>
+          <div class="sub">~10 kill-switchable gates; every skip journaled</div>
+        </div>
+        <div class="arrow">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 12h16M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="lbl">survivors<br>only</div>
+        </div>
+        <div class="node accent">
+          <div class="ico">overlay · bounded</div>
+          <div class="nm">AI Overlay</div>
+          <div class="sub">veto or resize [0, 2×] · fails open</div>
+        </div>
+        <div class="arrow">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 12h16M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="lbl">clamped<br>fill plan</div>
+        </div>
+        <div class="node">
+          <div class="ico">venue</div>
+          <div class="nm">MCP Execution</div>
+          <div class="sub">real orders via Alpaca's official MCP server</div>
+        </div>
+      </div>
+
+      <div class="arch-legend">
+        <span><span class="lg-box closed"></span> closed / proprietary (not judged)</span>
+        <span><span class="lg-box open"></span> open, auditable agent (what you're judging)</span>
+        <span><span class="lg-box acc"></span> the bounded AI overlay</span>
+      </div>
+
+      <p class="split-note">
+        <b>The quant-shop split.</b> The trust boundary is one-directional and minimal: signals flow in as
+        bounded scalars — conviction scores, a hold-tier, a market-regime context — with no shared code and no
+        RPC into the engine's internals. There is <b>no write-back path</b>. The alpha proposes; the risk-aware
+        AI agent disposes — and every knob in that disposal is in the open repo.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 5 — THE FLEET ============ -->
+<section id="fleet">
+  <div class="wrap">
+    <p class="eyebrow">The portfolio, honestly described</p>
+    <h2>Three live risk profiles. The flagship adds the AI.</h2>
+    <p class="lede">Not a controlled experiment — a small fleet of distinct risk profiles, one of which layers the bounded AI overlay onto the same deterministic machinery.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Cell</th>
+            <th>Risk profile</th>
+            <th>Holding window</th>
+            <th>Leverage</th>
+            <th>AI overlay</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-name">Cash sleeve</td>
+            <td>conservative</td>
+            <td>14–30 DTE (longer-dated)</td>
+            <td>~100%</td>
+            <td class="ai-off">— off</td>
+          </tr>
+          <tr>
+            <td class="cell-name">Margin sleeve</td>
+            <td>aggressive</td>
+            <td>2–7 DTE (short-dated)</td>
+            <td>~100%</td>
+            <td class="ai-off">— off</td>
+          </tr>
+          <tr class="flagship">
+            <td class="cell-name">Compete <span class="flag">FLAGSHIP</span></td>
+            <td>widest window, favors short</td>
+            <td>2–30 DTE (any, favors short)</td>
+            <td>~190%</td>
+            <td class="ai-on">● on · bounded overlay</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="matched-note">
+      <b style="color:var(--ink2)">Matched across all three</b> (same deterministic machinery):
+      the <code>same conviction floor</code> · the <code>same per-name position cap</code> ·
+      the <code>same minimum hold-tier</code> · the <code>same pacing and entry filters</code>.
+      The flagship is where the AI overlay layers in — which is why the
+      <b style="color:var(--ink2)">decision journal</b>, not an account comparison, is the primary evidence of its value.
+    </p>
+  </div>
+</section>
+
+<!-- ============ SLIDE 6 — EVIDENCE ============ -->
+<section id="evidence">
+  <div class="wrap">
+    <p class="eyebrow">Captured, verifiable</p>
+    <h2>Evidence</h2>
+    <p class="lede">Verbatim from the live cells and the test suite. Proprietary score names genericized; account fields redacted.</p>
+
+    <!-- Decision journal -->
+    <div class="ev">
+      <div class="ev-head">
+        <span class="dot"></span>
+        <h3>The decision journal — the AI in action</h3>
+        <span class="file">data/decisions.jsonl · 34,292 records</span>
+      </div>
+      <div class="ev-body">
+        <p>A BUY record carries the AI's fingerprint: <span class="mono" style="color:var(--accent)">sizeFactor</span>
+           (the bounded resize) and a plain-English reason that cites the gate state. Below, the model overrides a
+           conflicting bearish flag with disciplined, reduced sizing — exactly the judgment the overlay exists to add.</p>
+<pre class="term"><span class="c-com">// genericized · one JSON line per candidate</span>
+{
+  <span class="c-key">"ts"</span>: <span class="c-str">"2026-09-02T15:20:19.866Z"</span>, <span class="c-key">"action"</span>: <span class="c-str">"BUY"</span>, <span class="c-key">"executed"</span>: <span class="c-num">true</span>,
+  <span class="c-key">"reason"</span>: <span class="c-str">"gated+selected+sized · strong conviction with max-conviction regime</span>
+            <span class="c-str">flag set, conviction well above floor; 2 DTE warrants a</span>
+            <span class="c-str">sized-up entry inside the spread with a walk backstop."</span>,
+  <span class="c-key">"gatePct"</span>: <span class="c-num">0.37</span>, <span class="c-key">"governor"</span>: <span class="c-num">1</span>, <span class="c-key">"dte"</span>: <span class="c-num">2</span>, <span class="c-key">"qty"</span>: <span class="c-num">91</span>,
+  <span class="c-key">"execMode"</span>: <span class="c-str">"between"</span>,
+  <span class="c-key">"execPlan"</span>: [
+    { <span class="c-key">"mode"</span>:<span class="c-str">"between"</span>, <span class="c-key">"qtyPct"</span>:<span class="c-num">0.7</span>, <span class="c-key">"lowFrac"</span>:<span class="c-num">0.0</span>, <span class="c-key">"highFrac"</span>:<span class="c-num">0.5</span> },
+    { <span class="c-key">"mode"</span>:<span class="c-str">"walk"</span>,    <span class="c-key">"qtyPct"</span>:<span class="c-num">0.3</span>, <span class="c-key">"lowFrac"</span>:<span class="c-num">0.5</span>, <span class="c-key">"highFrac"</span>:<span class="c-num">1.0</span> }
+  ],
+  <span class="c-key">"sizeFactor"</span>: <span class="c-num">1.8</span>   <span class="c-com">// ← the AI's bounded resize, clamped to [0, 2×]</span>
+}</pre>
+        <p>The funnel is the point: <b style="color:var(--ink)">16,725 SKIP · 13,221 CONSIDER · 4,221 HOLD · 86 BUY · 39 CLOSE</b>.
+           Tens of thousands of candidates, 86 buys — the agent's default answer is <em>no</em>.</p>
+        <p style="margin-bottom:0"><b style="color:var(--ink2)">Not just auditable — audited.</b>
+           One pass over the journal, across every sized entry:
+           <b style="color:var(--accent)">18 upsized</b> · <b style="color:var(--accent)">34 downsized</b> ·
+           <b style="color:var(--ink)">34 held at gate size</b> · median <span class="mono" style="color:var(--accent)">sizeFactor</span> <b style="color:var(--ink)">1.0</b>.
+           ~60% of sized entries were actively re-sized by the AI — a bounded overlay that <em>tunes</em>, not one that takes over.
+           <span style="color:var(--ink3)">(Vetoes size to zero and never reach the buy log — the caution shows up upstream as a skip. Counts only.)</span></p>
+      </div>
+    </div>
+
+    <div class="ev-grid">
+      <!-- MCP order -->
+      <div class="ev">
+        <div class="ev-head">
+          <span class="dot"></span>
+          <h3>Real orders via Alpaca's MCP</h3>
+          <span class="file">[mcp-venue]</span>
+        </div>
+        <div class="ev-body">
+          <p>Verbatim log. The price staircase on one contract is the multi-leg fill plan — resting inside the
+             spread and walking the remainder, never one market order at the ask.</p>
+<pre class="term"><span class="c-ok">ok buy</span>  5 &lt;contract&gt; <span class="c-num">@0.53</span> (281ms)
+<span class="c-ok">ok buy</span>  5 &lt;contract&gt; <span class="c-num">@0.55</span>  (95ms)
+<span class="c-ok">ok buy</span>  5 &lt;contract&gt; <span class="c-num">@0.57</span>  (90ms)
+<span class="c-com"># climbs INSIDE the spread — bounded</span>
+<span class="c-com"># above by the arrival ceiling →</span></pre>
+          <p style="margin-bottom:0">Sub-300ms round trips. Venue swaps to REST with a single env flag —
+             production-grade rollback.</p>
+        </div>
+      </div>
+
+      <!-- Arrival ceiling test -->
+      <div class="ev">
+        <div class="ev-head">
+          <span class="dot"></span>
+          <h3>The ask can't be chased — proven</h3>
+          <span class="file">execution.test.ts</span>
+        </div>
+        <div class="ev-body">
+          <p>An adversarial test drives the ask <b style="color:var(--ink)">+50% mid-fill</b> and asserts no placed
+             price ever crosses the arrival-anchored ceiling.</p>
+<pre class="term"><span class="c-com">// arrival ask 0.60 → 10% ceiling = 0.66</span>
+<span class="c-com">// ask then RISES to 0.90 mid-execution</span>
+<span class="c-ok">✔</span> between + sweep: no price exceeds 0.66
+<span class="c-ok">✔</span> walk: stays anchored to PLAN arrival
+<span class="c-ok">✔</span> dry-run reflects the ceiling identically
+
+<span class="c-ok">ℹ pass 143   ℹ fail 0</span></pre>
+          <p style="margin-bottom:0">Overpaying is made <em>unrepresentable</em>, then pinned down by a test.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 6b — EVIDENCE (cont.) — BOTH SIDES OF MCP ============ -->
+<section id="evidence-mcp">
+  <div class="wrap">
+    <p class="eyebrow">Captured, verifiable — cont.</p>
+    <h2>Both sides of MCP work</h2>
+    <p class="lede">The agent is an MCP client <em>and</em> a read-only MCP server — and the read-only surface is safe to hand a judge's LLM.</p>
+
+    <!-- MCP smoke / read-only server -->
+    <div class="ev">
+      <div class="ev-head">
+        <span class="dot"></span>
+        <h3>Client reads live state · server exposes only read tools</h3>
+        <span class="file">npm run mcp:smoke</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-grid" style="align-items:start">
+          <div>
+            <p>Client side, live box: launches Alpaca's official server over stdio, enumerates tools, round-trips real reads.</p>
+<pre class="term"><span class="c-key">🖥  Server:</span> Alpaca MCP Server, 3.4.7
+<span class="c-ok">✓ MCP connected</span> — 72 tools exposed
+
+── get_clock
+{<span class="c-key">"is_open"</span>:<span class="c-num">false</span>,<span class="c-key">"next_open"</span>:<span class="c-str">"09:30-04:00"</span>}
+── get_account_info
+{<span class="c-key">"status"</span>:<span class="c-str">"ACTIVE"</span>,<span class="c-key">"options_trading_level"</span>:<span class="c-num">3</span>}</pre>
+          </div>
+          <div>
+            <p>Server side: the agent exposes its own read-only surface. Read tools are safe for a grader's LLM; mutating tools are never exposed.</p>
+<pre class="term"><span class="c-ok">slq_get_account</span>     read   <span class="c-ok">✓ expose</span>
+<span class="c-ok">slq_get_positions</span>   read   <span class="c-ok">✓ expose</span>
+<span class="c-ok">slq_get_decisions</span>   read   <span class="c-ok">✓ expose</span>  <span class="c-com"># the journal</span>
+<span class="c-ok">slq_status</span>          read   <span class="c-ok">✓ expose</span>
+<span class="c-red">slq_place_buy</span>       mutate <span class="c-red">✕ never</span>
+<span class="c-red">slq_close_position</span>  mutate <span class="c-red">✕ never</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 7 — OCC-SYMBOL ============ -->
+<section id="occ">
+  <div class="wrap">
+    <p class="eyebrow">Open-source plumbing</p>
+    <h2>occ-symbol — shipped, dual-published, byte-identical</h2>
+
+    <div class="occ">
+      <div class="occ-viz">
+        <div class="occ-sym"><span class="u">SPY</span><span class="d">260825</span><span class="r">C</span><span class="s">00500000</span></div>
+        <div class="occ-parts">
+          <div><span class="pu">UNDERLYING</span>SPY</div>
+          <div><span class="pd">EXPIRY</span>2026-08-25</div>
+          <div><span class="pr">RIGHT</span>Call</div>
+          <div><span class="ps">STRIKE</span>$500.00</div>
+        </div>
+        <div class="occ-badges">
+          <span class="badge"><b>npm</b> occ-symbol · 0.1.1</span>
+          <span class="badge"><b>PyPI</b> occ-symbol · 0.1.1</span>
+          <span class="badge"><b>zero</b> runtime deps</span>
+        </div>
+      </div>
+      <div class="occ-copy">
+        <h3>Correctness as first-class</h3>
+        <p>A mis-parsed strike routes an order to the <em>wrong contract</em> — a notorious source of silent,
+           money-losing bugs in options code.</p>
+        <p>The Python port reimplements JavaScript's half-away-from-zero rounding — because Python's built-in
+           <span class="mono" style="color:var(--accent);font-size:13px">round()</span> uses banker's rounding and
+           would disagree on exact half-thousandth strikes. Test fixtures mirror 1:1 across both languages.</p>
+        <p style="margin-bottom:0">Shipping this as OSS signals a team that treats the closed alpha upstream to the same standard —
+           we just don't give that part away.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 8 — ALPHA <-> AGENT ============ -->
+<section id="alpha-agent">
+  <div class="wrap">
+    <p class="eyebrow">The framing</p>
+    <h2>The alpha proposes. The risk-aware AI agent disposes.</h2>
+
+    <div class="quote-panel">
+      <span class="mark">&ldquo;</span>
+      <blockquote>
+        Silver Lynx is the <b>execution-and-risk desk</b>; our proprietary research engine is the <b>signal desk</b>
+        — separated on purpose, exactly like a real quant shop. The engine stays a black box; the agent is 100% open
+        and is what you're judging. They touch through a single typed, read-only socket that returns bounded scalars —
+        conviction scores, hold tiers, a market-regime context — with no shared code and no RPC into the engine's
+        internals. The agent doesn't obey the signal; it re-derives its own gates, its own sizing, its own execution
+        policy, and an LLM overlay that can veto or resize. Every knob in that disposal is in the open repo.
+      </blockquote>
+
+      <div class="desk-split">
+        <div class="desk signal">
+          <h4>Signal desk</h4>
+          <p>Proprietary research engine. Produces bounded scalars only — never code, never RPC.</p>
+          <div class="lock">🔒 closed · not judged</div>
+        </div>
+        <div class="seam">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 12h16M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="lbl">one typed read-only socket · signals in, no write-back</div>
+        </div>
+        <div class="desk exec">
+          <h4>Execution &amp; risk desk</h4>
+          <p>Gates, sizing, MCP execution, and the bounded AI overlay. The agent physically cannot leak the edge —
+             it never has it.</p>
+          <div class="lock">🔓 100% open · judged</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 9 — CLOSE ============ -->
+<section class="close" id="close">
+  <div class="wrap">
+    <p class="eyebrow" style="justify-content:center">The takeaway</p>
+    <h2>The alpha stays a black box. The agent is <span class="hl">100% auditable</span> — and the AI's contribution is provable trade-by-trade.</h2>
+    <p class="sub">
+      A fully-transparent, LLM-in-the-loop options desk: bounded by math, failing open toward a proven strategy,
+      executing MCP-native both ways, with every decision a queryable JSON line.
+    </p>
+    <div class="chips">
+      <span class="chip"><b>34,292</b> decisions journaled</span>
+      <span class="chip">AI clamped to <b>[0, 2×]</b></span>
+      <span class="chip"><b>MCP</b> client + read-only server</span>
+      <span class="chip"><b>143/143</b> tests green</span>
+      <span class="chip"><b>occ-symbol</b> · npm + PyPI</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    SILVER LYNX — THE BOUNDED AI OPTIONS DESK &nbsp;·&nbsp; ALPACA AI TRADING AGENTS &nbsp;·&nbsp;
+    <span class="warn">world-safe submission artifact — proprietary alpha genericized, account fields redacted</span>
+  </div>
+</footer>
+
+</body>
+</html>
