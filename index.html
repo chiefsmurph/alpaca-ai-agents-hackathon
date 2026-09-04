@@ -41,9 +41,9 @@
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;overscroll-behavior:none}
   body{
-    margin:0;background:var(--bg);color:var(--ink);
+    margin:0;overscroll-behavior:none;background:var(--bg);color:var(--ink);
     font-family:var(--sans);font-size:16px;line-height:1.6;
     -webkit-font-smoothing:antialiased;
     background-image:
@@ -263,6 +263,13 @@
   .occ-badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
   .badge{font-family:var(--mono);font-size:12px;border:1px solid var(--line2);border-radius:8px;padding:7px 12px;color:var(--ink2)}
   .badge b{color:var(--accent)}
+  .occ-links{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px;align-items:center}
+  .occ-link{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;border:1px solid var(--line2);border-radius:8px;padding:7px 11px;color:var(--ink2);transition:border-color .15s,color .15s,transform .15s}
+  .occ-link:hover{border-color:var(--accent-dim);color:var(--ink);transform:translateY(-1px)}
+  .occ-link svg{width:15px;height:15px;flex:none}
+  .occ-link.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:650}
+  .occ-link.primary:hover{background:#3ad3ec;color:var(--accent-ink)}
+  .occ-ver{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.03em}
 
   /* ============ ALPHA <-> AGENT ============ */
   .quote-panel{
@@ -843,10 +850,24 @@
           <div><span class="pr">RIGHT</span>Call</div>
           <div><span class="ps">STRIKE</span>$500.00</div>
         </div>
-        <div class="occ-badges">
-          <span class="badge"><b>npm</b> occ-symbol · 0.1.1</span>
-          <span class="badge"><b>PyPI</b> occ-symbol · 0.1.1</span>
-          <span class="badge"><b>zero</b> runtime deps</span>
+        <div class="occ-links">
+          <a class="occ-link primary" href="https://occsymbol.com" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+            Use it live
+          </a>
+          <a class="occ-link" href="https://github.com/chiefsmurph/occ-symbol" target="_blank" rel="noreferrer" aria-label="occ-symbol on GitHub">
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            GitHub
+          </a>
+          <a class="occ-link" href="https://www.npmjs.com/package/occ-symbol" target="_blank" rel="noreferrer" aria-label="occ-symbol on npm">
+            <svg viewBox="0 0 576 576" aria-hidden="true"><path fill="#cb3837" d="M0 0h576v576H0z"/><path fill="#fff" d="M96 480h192V192h96v288h96V96H96z"/></svg>
+            npm
+          </a>
+          <a class="occ-link" href="https://pypi.org/project/occ-symbol/" target="_blank" rel="noreferrer" aria-label="occ-symbol on PyPI">
+            <svg viewBox="0 0 255 255" aria-hidden="true"><path fill="#3776ab" d="M126.9 0C62 0 66 28.1 66 28.1l.1 29.1h62v8.8H41.4S0 61.3 0 126.9c0 65.6 36.1 63.3 36.1 63.3h21.6v-30.4s-1.2-36.1 35.5-36.1h61.5s34.3.6 34.3-33.2V33.9S194.5 0 126.9 0zM92.7 19.7a11.1 11.1 0 110 22.2 11.1 11.1 0 010-22.2z"/><path fill="#ffd43b" d="M128.1 255c64.9 0 60.9-28.1 60.9-28.1l-.1-29.1h-62v-8.8h86.7S255 193.7 255 128.1c0-65.6-36.1-63.3-36.1-63.3h-21.6v30.4s1.2 36.1-35.5 36.1H100.3s-34.3-.6-34.3 33.2v55.4S60.7 255 128.1 255zm34.2-19.7a11.1 11.1 0 110-22.2 11.1 11.1 0 010 22.2z"/></svg>
+            PyPI
+          </a>
+          <span class="occ-ver">v0.1.1 · zero deps</span>
         </div>
       </div>
       <div class="occ-copy">
