@@ -86,7 +86,7 @@ proves the real logic isn't hidden inside the thing being judged.
 1. **The AI proves its worth line by line.** 34,292 journaled decisions; every AI intervention
    (veto → 0, or resize within `[0, 2×]`) auditable trade-by-trade against the gate's original
    call — not a confounded account race.
-2. **A rising ask literally cannot make us overpay.** One dollar ceiling is anchored to the
+2. **A rising ask literally cannot make us overpay.** One absolute-dollar ceiling is anchored to the
    *arrival* quote and clamps every rung, walk step, spray shot, and sweep. A test drives the
    ask up 50% mid-fill and asserts no recorded price ever crosses the ceiling.
 3. **A costly early API bill became a two-tier token budget.** One raw feed position is tens of
