@@ -60,7 +60,7 @@ Health probe (never returns data, only window state):
 
 ```bash
 curl -s http://localhost:8848/healthz
-# {"ok":true,"window":"open","name":"silver-lynx-quant-readonly"}
+# {"ok":true,"window":"open","name":"alpaca-ai-agents-readonly"}
 ```
 
 ### Exposing it (done by a human, out of scope here)

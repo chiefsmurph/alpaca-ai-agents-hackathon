@@ -68,7 +68,7 @@ const PUBLIC_TOKEN = process.env.MCP_PUBLIC_TOKEN || '';
 const PUBLIC_UNTIL = process.env.MCP_PUBLIC_UNTIL || ''; // e.g. "2026-09-06T23:59:59Z"
 const PUBLIC_ENABLED = String(process.env.MCP_PUBLIC_ENABLED || 'true').toLowerCase() === 'true';
 
-const SERVER_NAME = 'silver-lynx-quant-readonly';
+const SERVER_NAME = 'alpaca-ai-agents-readonly';
 const SERVER_VERSION = '0.1.0';
 
 // ── result helpers ────────────────────────────────────────────────────────────
