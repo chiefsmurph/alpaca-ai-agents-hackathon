@@ -1,11 +1,11 @@
 # Silver Lynx Quant — Alpaca AI Trading Agents Hackathon entry
 
-> A live, fully-transparent, LLM-in-the-loop options-execution agent that trades private
-> alpha through a multi-layer deterministic risk gauntlet — executing through Alpaca's
-> official MCP server, and exposing its own read-only MCP server so a judge's LLM can
+> A fully-transparent, LLM-in-the-loop options-execution agent that takes signals from a
+> private research engine through a multi-layer deterministic risk gauntlet — executing on
+> Alpaca paper trading through Alpaca's official MCP server, and exposing its own read-only MCP server so a judge's LLM can
 > inspect it in real time.
 
-*Team **Silver Lynx Quant** · built for the [Alpaca AI Trading Agents Hackathon](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon) on lablab.ai · Alpaca paper trading.*
+*Team **Silver Lynx Quant** · built for the [Alpaca AI Trading Agents Hackathon](https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon) on lablab.ai · **all trading shown is Alpaca paper trading.***
 
 ---
 
@@ -13,7 +13,7 @@
 
 The **full agent runs in a private repo** (closed alpha — the upstream research/signal engine and
 its proprietary scores). **THIS repo is the open, auditable reference of its execution & risk
-layer** — the exact patterns that keep a bounded LLM safe on live capital, reimplemented clean-room,
+layer** — the exact patterns that keep a bounded LLM safe when it can place real orders, reimplemented clean-room,
 **plus runnable tests you can execute yourself:**
 
 ```bash
@@ -72,7 +72,7 @@ read-only MCP server for inspection.
 
 ## How we prove the AI is worth it — the decision journal, not a P&L race
 
-We run Silver Lynx as a small fleet of **three live cells**, each a distinct risk profile:
+We ran Silver Lynx as a small fleet of **three paper-trading cells**, each a distinct risk profile:
 
 | Cell | Holding-period window | Leverage | AI overlay |
 |------|----------------------|----------|-----------|
@@ -137,7 +137,7 @@ proves the real logic isn't hidden inside the thing being judged.
    *arrival* quote and clamps every rung, walk step, spray shot, and sweep. A test drives the
    ask up 50% mid-fill and asserts no recorded price ever crosses the ceiling.
 3. **A costly early API bill became a two-tier token budget.** One raw feed position is tens of
-   thousands of tokens of nested state; serialized whole it burned real money fast against a
+   thousands of tokens of nested state; serialized whole it burned through API budget fast against a
    hard prepaid cap. We project it to a few hundred curated scalars under a strict char budget —
    roughly **30× cheaper per call**, and the model sees *more* structured signal.
 4. **The AI is bounded by math, and it fails open.** A forced tool-call lets the model only
@@ -273,8 +273,8 @@ live and fills in the host + token. The URL above is a placeholder until then.
 Captured artifacts backing the claims above (redacted per submission rules — no tickers,
 account sizes, or P&L figures):
 
-- **Real MCP orders.** Verbatim `[mcp-venue] ok buy …` log lines from a live cell — real
-  multi-leg fills landing on Alpaca *through the MCP tool call*, with fill price and
+- **Real MCP orders (paper).** Verbatim `[mcp-venue] ok buy …` log lines from a paper cell — real
+  multi-leg fills landing on Alpaca paper *through the MCP tool call*, with fill price and
   sub-300ms round-trip latency. The price staircase on one contract is the multi-leg fill plan
   resting inside the spread and walking the remainder, bounded above by the arrival ceiling.
 - **The rising-ask invariant.** The execution test suite drives an ask *up 50% mid-fill* and

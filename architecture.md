@@ -222,7 +222,7 @@ most expensive class of agent bug — real ops maturity, not a demo.
 
 **[ENG]** The same code runs as multiple isolated instances — each pointed at its own env and data
 directory, each stamping a per-instance `client_order_id` so attribution stays clean on a shared
-feed. The live-money fleet is monitored **read-only** by a *separate* product whose config holds
+feed. The fleet is monitored **read-only** by a *separate* product whose config holds
 the account with a read-only flag: the monitor is structurally incapable of placing an order.
 
 **[TRADE]** Separation of concerns a real desk runs: the execution agents and the oversight
