@@ -499,7 +499,7 @@
     <div class="headline-panel">
       <span class="honest">Decision-journal audit</span>
       <p class="lede" style="max-width:82ch">
-        The three live cells differ in more than the AI — different holding-period windows, different
+        The three paper-trading cells differ in more than the AI — different holding-period windows, different
         leverage — so any raw account-vs-account P&amp;L delta is <b style="color:var(--ink)">confounded</b>.
         Instead, the AI's contribution is measured where it happens: every candidate the agent evaluates
         appends one structured JSON line recording <b style="color:var(--ink)">what the deterministic gate decided</b>
@@ -566,7 +566,7 @@
       <div class="feature">
         <div class="num">3</div>
         <h3>A costly API bill → a two-tier token budget</h3>
-        <p>One raw feed position is tens of thousands of tokens. Serialized whole, it burned real money against a
+        <p>One raw feed position is tens of thousands of tokens. Serialized whole, it burned through API budget against a
            hard prepaid cap. We project it to a few hundred curated scalars — roughly <span class="k">30× cheaper</span>
            per call, and the model sees <em>more</em> structured signal.
            <span style="color:var(--ink3)">Receipt: raw ~114k–255k chars → compacted ≤ ~3k chars (see <span class="mono">evidence/token-budget.md</span>).</span></p>
@@ -600,7 +600,7 @@
         <div class="node closed">
           <div class="ico">Signal desk · closed</div>
           <div class="nm">Proprietary Research Engine</div>
-          <div class="sub">private alpha — a black box</div>
+          <div class="sub">closed signals — a black box</div>
         </div>
         <div class="arrow">
           <svg viewBox="0 0 24 24" fill="none"><path d="M3 12h16M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -724,7 +724,7 @@
   <div class="wrap">
     <p class="eyebrow">Captured, verifiable</p>
     <h2>Evidence</h2>
-    <p class="lede">Verbatim from the live cells and the test suite. Proprietary score names genericized; account fields redacted.</p>
+    <p class="lede">Verbatim from the paper-trading cells and the test suite. Proprietary score names genericized; account fields redacted.</p>
 
     <!-- Decision journal -->
     <div class="ev">
